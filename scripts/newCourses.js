@@ -39,8 +39,13 @@ function fetchPostApi(){
         }
     }).then(res => res.json()).then(newCourse => {
         console.log(newCourse)
+       // displayNewCourse(newCourse)
+       window.location.href = 'index.html' 
     }).catch(err => {
         `THIS ISN'T WORKING`
     })
 }
 
+// function displayNewCourse(newCourse){
+
+// }
