@@ -16,25 +16,20 @@ function fetchCoursesApi(){
     .catch(err => `this is not fetching all courses`, err)
 }
 
-function displayCourseHandler(allCourses){
-    let displayCourses = document.getElementById('displayCourses');
+function deleteCourseHandler() {
+    console.log('Delete button clicked');
 
-    allCourses.forEach(course => {
-        displayCourses.innerHTML += `
-        <div class="card m-3">
-        <div class="card-body">
-        <p> Dept: ${course.dept}</p>
-        <p>Course Number: ${course.courseNum}</p>
-        <p>Course Name${course.courseName}</p>
-        <p>Course Instructor${course.instructor}</p>
-        <p>${course.startDate}</p>
-        <p>${course.numDays}</p>
-
-        <div>
-            <button><a href>Edit Course</a></button>
-        </div>
-        </div>
-        </div>
-        `
+    fetch(`http://localhost:8081/api/courses/${courseId}`, { 
+        method: "DELETE",
+        headers: { "Content-type": "application/json" },
     })
+    .then(res => res.json())
+    .then(deletedCourse => {
+        console.log('Course deleted successfully:', deletedCourse);
+        // Fetch and display updated courses after deletion
+        fetchCoursesApi();
+    })
+    .catch(err => {
+        console.error('Error deleting course:', err);
+    });
 }
