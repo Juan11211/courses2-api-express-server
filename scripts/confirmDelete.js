@@ -1,26 +1,29 @@
-"use strict";
+let yesBtn = document.getElementById('yesBtn');
+let courseId; 
 
 window.onload = () => {
-    const urlParams = new URLSearchParams(location.search);
-    let courseId = urlParams.get('id');
+    const urlParams = new URLSearchParams(window.location.search);
+    courseId = urlParams.get('id');
 
-    let yesBtn = document.getElementById('yesBtn');
+    // Add this line to check if the button is correctly identified
+    console.log(yesBtn);
 
-    yesBtn.onclick = () => fetchDeleteReq(courseId);
-}
+    yesBtn.onclick = deleteCourseHandler;
+};
 
-function fetchDeleteReq(courseId) {
+function deleteCourseHandler() {
+    console.log('Delete button clicked');
+
     fetch(`http://localhost:8081/api/courses/${courseId}`, { 
-        method: "DELETE"
+        method: "DELETE",
+        headers: { "Content-type": "application/json" },
     })
     .then(res => res.json())
     .then(deletedCourse => {
-        console.log(deletedCourse);
-        // Assuming successful deletion, redirect to index.html
-        location.href = 'index.html';
+        console.log('Course deleted successfully:', deletedCourse);
+        
     })
     .catch(err => {
-        console.error('Error deleting the course', err);
-        // Handle error and provide user feedback if needed
+        console.error('Error deleting course:', err);
     });
 }
